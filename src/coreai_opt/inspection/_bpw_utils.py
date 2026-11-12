@@ -314,7 +314,8 @@ def _lut_quant_bits(weight: torch.Tensor, palettization_fq: _FakePalettizeImplBa
     per palettization block: the LUT fake-quantizer overrides ``lut_qspec``'s per-tensor
     granularity to per-channel over the stacked LUT (in
     ``palettization/kmeans/kmeans_fake_palettize.py``). The export stores each scale at the
-    weight dtype.
+    weight dtype. When the scale overflows or loses precision there, the export stores the
+    LUT unquantized instead, and this count is too low.
     """
     if palettization_fq.lut_qspec is None:
         return 0
